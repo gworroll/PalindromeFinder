@@ -62,9 +62,7 @@ def get_keys(start, end):
 def test_word(first_words, second_words, count_two_word_palis):
     for w1 in first_words:
         for w2 in second_words:
-            if w1 == w2:
-                pass
-            else:
+            if w1 != w2:
                 testword = w1 + w2
                 if testword == testword[::-1]:
                     with count_two_word_palis.get_lock():
@@ -91,7 +89,6 @@ def bonus():
 
     t0 = time.time()
 
-    jobs = []
     count_two_word_palis = multiprocessing.Value('i', 0)
     for k1 in outer_keys:
         for k2 in keys[k1]:
@@ -100,7 +97,6 @@ def bonus():
             p = multiprocessing.Process(target=test_word,
                                         args=(first_words, last_words,
                                               count_two_word_palis))
-            jobs.append(p)
             p.start()
     while len(multiprocessing.active_children()) > 0:
         True
